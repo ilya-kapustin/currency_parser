@@ -21,7 +21,7 @@ df_main = pd.DataFrame(all_line)
 df_main.index = df_main[3]
 df_main.columns = df_main.iloc[0]
 df_main = df_main.drop(df_main.index[0])
-df_main = df_main.drop('Валюта', 1)
+df_main = df_main.drop('Валюта', axis=1)
 
 
 pd.set_option('display.max_rows', None)

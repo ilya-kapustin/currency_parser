@@ -42,7 +42,7 @@ class AllCurrency:
 
         for line in self.tr[:1]:
             self.all_line.append(line.text.splitlines()[1:])
-            print(line)
+        self.all_line[0].append('Дата')
 
         while True:
             self.start_date = self.start_date + timedelta(days=1)
@@ -54,18 +54,20 @@ class AllCurrency:
             for line in self.tr[1:]:
                 if '<td>Украинских карбованецев</td>' not in str(line):
                     self.all_line.append(line.text.splitlines()[1:])
+                    self.all_line[-1].append(self.start_date.strftime("%d.%m.%Y"))
             if str(self.finished_date) == str(self.start_date):
                 break
         self.clean_data()
 
     def clean_data(self):
         data = pd.DataFrame(self.all_line)
+        # data.index = data['Цифр. код']
         data.columns = data.iloc[0]
         data = data.drop(data.index[0])
-        data = data.drop('Валюта', axis=1)
+        # data = data.drop('Валюта', axis=1)
         data.to_csv(self.save_name, encoding='utf-8')
-        print(data, data.columns)
+        print(data)
 
 
 if __name__ == '__main__':
-    AllCurrency('01.07.1992', '14.10.2021', 'data').run()
+    AllCurrency('01.07.1992', '10.07.1992', 'data').run()
